@@ -5,7 +5,7 @@ public class Main {
             String port = "3306";
             String userName = "root";
             String password = "Password.1";
-			DatabaseGui GUI = new DatabaseGui(dbName, port, userName, password);
+			GUI GUI = new GUI(dbName, port, userName, password);
 			GUI.display();
     }
 }
