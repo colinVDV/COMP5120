@@ -30,15 +30,15 @@ public class GUI extends JFrame implements ActionListener {
 
 
 	// Gui variables (things that will show up in the gui)
-	private JLabel appTitle = new JLabel("COMP5120 FINAL PROJECT");
+	private JLabel Header = new JLabel("COMP5120 FINAL PROJECT");
 	private JComboBox<String> tableSelect;
 	private JLabel inputLabel = new JLabel("Please submit your SQL query:");
 	private JTextField inputField = new JTextField(10);
 	private JButton inputClear = new JButton("Reset");
 	private JButton inputSubmit = new JButton("Submit");
-	private JTable guiTable = null;
+	private JTable ResultTable = null;
 	private JLabel tableLabel = new JLabel("Resulting table");
-	private JScrollPane tablePane = new JScrollPane(guiTable);
+	private JScrollPane tablePane = new JScrollPane(ResultTable);
 
 	//constructor for the GUI
 	GUI(String dbNameIn, String dbPortIn, String userIn, String pwIn) {
@@ -68,8 +68,8 @@ public class GUI extends JFrame implements ActionListener {
 
 		tableLabelPanel.setLayout(new FlowLayout());
 		// Adding things to titlePanel
-		appTitle.setFont(titleFont);
-		titlePanel.add(appTitle);
+		Header.setFont(titleFont);
+		titlePanel.add(Header);
 		// add glue for spacing between components
 		titlePanel.add(Box.createRigidArea(new Dimension(80, 0)));
 	
@@ -114,7 +114,7 @@ public class GUI extends JFrame implements ActionListener {
 		inputSubmitPanel.add(Box.createRigidArea(new Dimension(10, 0)));
 		inputSubmitPanel.add(inputSubmit);
 
-		
+
 		tableLabel.setFont(labelFont);
 		tableLabelPanel.add(tableLabel);
 		mainPanel.add(titlePanel);
@@ -134,7 +134,7 @@ public class GUI extends JFrame implements ActionListener {
 		} catch (SQLException e) {
 			showErrorMessage(e);
 		}
-		guiTable.setFillsViewportHeight(true);
+		ResultTable.setFillsViewportHeight(true);
 		mainPanel.add(tablePane);
 		//mainPanel.add(new JSeparator(SwingConstants.HORIZONTAL));
 		mainPanel.add(Box.createRigidArea(new Dimension(0, 10)));
@@ -190,8 +190,8 @@ public class GUI extends JFrame implements ActionListener {
 		} catch(SQLException er) {
 			showErrorMessage(er);
 		}
-		guiTable = new JTable(tableModel);
-		tablePane.setViewportView(guiTable);
+		ResultTable = new JTable(tableModel);
+		tablePane.setViewportView(ResultTable);
 		tablePane.repaint();
 	}
 
