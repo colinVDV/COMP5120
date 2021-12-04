@@ -10,26 +10,23 @@ import java.util.ArrayList;
 
 public class GUI extends JFrame implements ActionListener {
 
-	// Instance of the DatabaseInterface
+	
 	private exec dbInter = null;
 	private ResultSet dbResults = null;
 	private ResultSetMetaData dbMeta = null;
 
-	// Instantiate main panel and subpanels
 	private JPanel mainPanel = new JPanel();
 	private JPanel titlePanel = new JPanel();
 	private JPanel inputPanel = new JPanel();
 	private JPanel inputSubmitPanel = new JPanel();
 	private JPanel tableLabelPanel = new JPanel();
 
-	// Fonts
 	private Font titleFont = new Font(Font.SANS_SERIF, Font.BOLD, 35);
 	private Font labelFont = new Font(Font.SANS_SERIF, Font.BOLD,18);
 	private Font buttonFont = new Font(Font.SANS_SERIF,Font.BOLD,14);
 	private Font componentFont = new Font(Font.SANS_SERIF,Font.PLAIN,17);
 
 
-	// Gui variables (things that will show up in the gui)
 	private JLabel Header = new JLabel("COMP5120 FINAL PROJECT");
 	private JComboBox<String> tableSelect;
 	private JLabel inputLabel = new JLabel("Please submit your SQL query:");
@@ -40,7 +37,6 @@ public class GUI extends JFrame implements ActionListener {
 	private JLabel tableLabel = new JLabel("Resulting table");
 	private JScrollPane tablePane = new JScrollPane(ResultTable);
 
-	//constructor for the GUI
 	GUI(String dbNameIn, String dbPortIn, String userIn, String pwIn) {
 		
 		super("COMP 5120: Final Project");
@@ -53,13 +49,11 @@ public class GUI extends JFrame implements ActionListener {
 			showErrorMessage(e);
 		}
 
-		// main frame configuration
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(true);
 		setLocation(60,60);
 		setLayout(new FlowLayout());
 
-		// Layout for the panels
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
 		titlePanel.setLayout(new BoxLayout(titlePanel, BoxLayout.LINE_AXIS));
 		inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.PAGE_AXIS));
@@ -67,13 +61,10 @@ public class GUI extends JFrame implements ActionListener {
 												 BoxLayout.LINE_AXIS));
 
 		tableLabelPanel.setLayout(new FlowLayout());
-		// Adding things to titlePanel
 		Header.setFont(titleFont);
 		titlePanel.add(Header);
-		// add glue for spacing between components
 		titlePanel.add(Box.createRigidArea(new Dimension(80, 0)));
 	
-		// Have the GUI reach out to the database for the table select list
 		List<String> resultString = new ArrayList<String>();
 		try {
 			dbResults = dbInter.execStatement("SHOW TABLES");
@@ -85,27 +76,20 @@ public class GUI extends JFrame implements ActionListener {
 			showErrorMessage(e);
 		}	
 
-		// initialize the dbTables Array
 		String[] dbTables = new String[resultString.size()];
 		for(int i=0; i<resultString.size(); i++) {
 			dbTables[i] = resultString.get(i);
 		}
 		
-		// add the String[] array to the tableSelect gui component
 		tableSelect = new JComboBox<>(dbTables);
-		// add the component to titlePanel
 		tableSelect.setFont(componentFont);
 
-		// add action listener to tableSelect so we can do things with it
 		tableSelect.addActionListener(this);
 		titlePanel.add(tableSelect);
 
-		// Adding things to inputPanel
 		inputLabel.setFont(labelFont);
 		inputPanel.add(inputLabel);
 		inputPanel.add(inputField);
-
-		// Adding things to inputSubmitPanel
 		inputClear.setFont(buttonFont);
 		inputClear.addActionListener(this);
 		inputSubmit.setFont(buttonFont);
@@ -119,15 +103,12 @@ public class GUI extends JFrame implements ActionListener {
 		tableLabelPanel.add(tableLabel);
 		mainPanel.add(titlePanel);
 		mainPanel.add(Box.createRigidArea(new Dimension(0, 15)));
-		//mainPanel.add(new JSeparator(SwingConstants.HORIZONTAL));
 		mainPanel.add(Box.createRigidArea(new Dimension(0, 10)));
 		mainPanel.add(tableLabelPanel);
-		
-		//change dimensions here to adjust resulting table
+
 		tablePane.setPreferredSize(new Dimension(700, 200));
 		tablePane.setMaximumSize(new Dimension(700, 300));
-		
-		//Build first table in database
+
 		try {
 			dbResults = dbInter.execStatement("SELECT * FROM " + dbTables[0]);
 			createTable(dbResults);
@@ -136,20 +117,15 @@ public class GUI extends JFrame implements ActionListener {
 		}
 		ResultTable.setFillsViewportHeight(true);
 		mainPanel.add(tablePane);
-		//mainPanel.add(new JSeparator(SwingConstants.HORIZONTAL));
 		mainPanel.add(Box.createRigidArea(new Dimension(0, 10)));
 		mainPanel.add(inputPanel);
 		mainPanel.add(Box.createRigidArea(new Dimension(0, 10)));
 		mainPanel.add(inputSubmitPanel);
 		mainPanel.add(Box.createRigidArea(new Dimension(0, 10)));
-		
-
-		// Adding main panel to main frame
-		// vertical struct for a bit of space at the top of the window
+	
 		add(Box.createRigidArea(new Dimension(800,20)));
 		add(mainPanel);
 
-		// Frame Size set last
 		setSize(600,480);
 	}
 
